@@ -1,0 +1,266 @@
+#include<stdio.h>
+#include<stdlib.h>
+void create(int);
+void display(int);
+void insertfront(int);
+void insertend(int);
+void insertpos(int);
+void delfront(int);
+void delend(int);
+void delpos(int);
+struct node
+{
+    int data;
+    struct node* next;
+};
+struct node* start=NULL;
+
+int main()
+{
+    int num,count=0;
+    while(1)
+    {
+        printf("menu\n1.create\n2.display\n3.insertfront\n4.insertend\n5.insertpos\n6.delfront\n7.delend\n8.delpos\n");
+    printf("enter choice:\n");
+    scanf("%d",&num);
+    switch(num)
+    {
+        case 1:
+            create(count);
+            count++;
+            break;
+        case 2:
+            display( count);
+            break;
+        case 3:
+            insertfront(count);
+            count++;
+            break;
+        case 4:
+            insertend(count);
+            count++;
+            break;
+        case 5:
+            insertpos(count);
+            count++;
+            break;
+        case 6:
+            delfront(count);
+            count--;
+            break;
+        case 7:
+            delend(count);
+            count--;
+            break;
+        case 8:
+            delpos(count);
+            count--;
+            break;
+        case 9:
+            exit(0);
+            break;
+            
+        default:
+        printf("enter valid choice");
+        break;
+    }
+    }
+    return 0;
+}
+void create( int count)
+{
+    struct node *ptr,*temp;
+    temp=(struct node*)malloc(sizeof(struct node));
+    printf("enter data:\n");
+    scanf("%d",&temp->data);
+    temp->next=NULL;
+    if(start==NULL)
+     start=temp;
+    
+    else
+    {
+        ptr=start;
+        while(ptr->next!=NULL)
+        {
+            ptr=ptr->next;
+        }
+        ptr->next=temp;
+    }
+    
+
+}
+void display(int count)
+{
+    struct node* temp;
+    if(start==NULL)
+    {
+        printf("empty list\n");
+    }
+    else
+    {
+        temp=start;
+        printf("elements are:\n");
+            while(temp!=NULL)
+            {
+                 printf("%d->",temp->data);
+                temp=temp->next;
+            }
+    }
+    printf("no of elements %d\n",count);
+}
+void insertfront(int count)
+{
+    struct node* temp;
+    temp=(struct node*)malloc(sizeof(struct node));
+    printf("element to insert at the front:\n");
+    scanf("%d",&temp->data);
+    
+    
+    if(start==NULL)
+    {
+        start=temp;
+        start->next=NULL;
+    }
+    else
+    {
+        temp->next=start;
+        start=temp;
+        
+    }
+    
+}
+void insertend(int count)
+{
+        struct node* temp,*ptr;
+    temp=(struct node*)malloc(sizeof(struct node));
+    printf("element to insert at the end:\n");
+    scanf("%d",&temp->data);
+    temp->next=NULL;
+    if(start==NULL)
+    {
+        start=temp;
+    }
+    else
+    {
+        ptr=start;
+        while(ptr->next!=NULL)
+        {
+            ptr=ptr->next;
+        }
+        ptr->next=temp;
+    }
+    
+}
+void insertpos(int count)
+{   
+    struct node* temp,*ptr=start,*emp;
+    int pos;
+    temp=(struct node*)malloc(sizeof(struct node));
+    
+    if(start==NULL)
+    {
+        printf("linkedlist is empty\n");
+        return ;
+    }
+    printf("element to insert at the position:\n");
+    scanf("%d",&temp->data);
+    printf("enter position:\n");
+    scanf("%d",&pos);
+    if(pos==0)
+    {
+        temp->next=start;
+        start=temp;
+    }
+    else
+    {
+    for(int i=0;i<pos-1;i++)
+    {
+        ptr=ptr->next;
+    }
+    emp=ptr->next;
+    ptr->next=temp;
+    temp->next=emp;
+    }
+    
+}
+void delfront(int count)
+{
+    if(start==NULL)
+    {
+        printf("underflow\n");
+    }
+    else
+    {
+        
+    struct node* temp;
+    temp=(struct node*)malloc(sizeof(struct node));
+    temp=start;
+    start=start->next;
+    printf("deleted element is %d\n",temp->data);
+    free(temp);
+    
+    printf("\n");
+    }
+}
+void delend(int count)
+{   struct node* temp;
+    if(start==NULL)
+    {
+        printf("underflow\n");
+    }
+    else if(count>=2)
+    {
+       temp=start;
+       while(temp->next->next!=NULL)
+       {
+           temp=temp->next;
+       }
+       printf("deleted element is %d\n",temp->next->data);
+       temp->next=NULL;
+       
+    }
+    else
+    {
+        temp=start;
+        printf("deleted element is %d\n",temp->data);
+        start=NULL;
+        printf("empty list\n");
+        
+    }
+}
+void delpos(int count)
+{
+    int pos;
+    
+    if(start==NULL)
+    {
+        printf("underflow\n");
+        return;
+    }   
+        printf("enter position:\n");
+        scanf("%d",&pos);
+    if(pos==0)
+    {
+        printf("deleted element is %d",start->data);
+        start=start->next;
+
+    }
+    else if(pos>count)
+    {
+        printf("give pos value less than or equal to %d\n",count);
+        return;
+    }
+    else
+    {   
+        struct node* temp=start,*ptr;
+        for(int i=0;i<pos-1;i++)
+        {
+            temp=temp->next;
+        }
+        ptr=temp->next;
+        printf("deleted element is %d\n",ptr->data);
+        temp->next=ptr->next;
+        free(ptr);
+        
+    }
+}
